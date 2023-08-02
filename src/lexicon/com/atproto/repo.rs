@@ -1,19 +1,19 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct StrongRef {
     pub uri: String,
     pub cid: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Record<T> {
     pub uri: String,
     pub cid: String,
     pub value: T,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ListRecordsOutput<T> {
     pub cursor: Option<String>,
     pub records: Vec<Record<T>>,
@@ -26,24 +26,24 @@ pub struct CreateRecord<'a, T> {
     pub record: T,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct CreateRecordOutput {
     pub cid: String,
     pub uri: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct CreateUploadBlob {
     pub blob: Vec<u8>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Link {
     #[serde(rename(deserialize = "$link", serialize = "$link"))]
     pub link: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Blob {
     #[serde(rename(deserialize = "$type", serialize = "$type"))]
     pub rust_type: String,
@@ -53,7 +53,7 @@ pub struct Blob {
     pub size: usize,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct BlobOutput {
     pub blob: Blob,
 }

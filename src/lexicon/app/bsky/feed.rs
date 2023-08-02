@@ -54,16 +54,18 @@ pub struct Post {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub embed: Option<Embeds>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub langs: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply: Option<ReplyRef>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ProfileViewBasic {
     pub did: String,
     pub handle: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct PostView {
     pub uri: String,
     pub cid: String,
@@ -73,26 +75,26 @@ pub struct PostView {
     pub indexed_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ReasonRepost {
     pub by: ProfileViewBasic,
     #[serde(rename(deserialize = "indexedAt"))]
     pub indexed_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct FeedViewPost {
     pub post: PostView,
     pub reason: Option<ReasonRepost>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct AuthorFeed {
     pub cursor: Option<String>,
     pub feed: Vec<FeedViewPost>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Like {
     #[serde(rename(deserialize = "createdAt"))]
     #[serde(rename(serialize = "createdAt"))]
@@ -101,7 +103,7 @@ pub struct Like {
 }
 
 ///like from app.bsky.feed.getLikes
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GetLikesLike {
     #[serde(rename(deserialize = "createdAt"))]
     #[serde(rename(serialize = "createdAt"))]
@@ -112,7 +114,7 @@ pub struct GetLikesLike {
     pub actor: ProfileView,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Repost {
     #[serde(rename(deserialize = "createdAt"))]
     #[serde(rename(serialize = "createdAt"))]
@@ -120,20 +122,20 @@ pub struct Repost {
     pub subject: StrongRef,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ReplyRef {
     pub root: StrongRef,
     pub parent: StrongRef,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GetLikes {
     pub uri: String,
     pub cid: Option<String>,
     pub limit: Option<usize>,
     pub cursor: Option<String>,
 }
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GetLikesOutput {
     pub uri: String,
     pub cid: Option<String>,
@@ -141,19 +143,19 @@ pub struct GetLikesOutput {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ThreadViewPost {
     pub post: PostView,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct NotFoundPost {
     pub uri: String,
     #[serde(rename(deserialize = "notFound"))]
     pub not_found: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(tag = "$type")]
 pub enum ThreadViewPostEnum {
     #[serde(rename(deserialize = "app.bsky.feed.defs#threadViewPost"))]
@@ -163,12 +165,12 @@ pub enum ThreadViewPostEnum {
 }
 
 ///api.bsky.feed.getPostThread
-#[derive(Debug, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GetPostThread {
     pub uri: String,
     pub depth: Option<usize>,
 }
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GetPostThreadOutput {
     pub thread: ThreadViewPostEnum,
 }

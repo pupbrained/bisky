@@ -4,7 +4,7 @@ use super::graph::Follow;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Notification<T> {
     pub uri: String,
     pub cid: String,
@@ -24,7 +24,7 @@ pub enum Subject {
     String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct PostSubject {
     pub cid: String,
     pub uri: String,
@@ -32,10 +32,10 @@ pub struct PostSubject {
     pub created_at: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ActorSubject(String);
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(tag = "$type")]
 pub enum NotificationRecord {
     #[serde(rename(deserialize = "app.bsky.feed.like"))]
@@ -48,7 +48,7 @@ pub enum NotificationRecord {
     Follow(Follow),
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ListNotificationsOutput<T> {
     pub cursor: Option<String>,
     pub notifications: Vec<Notification<T>>,
@@ -60,7 +60,7 @@ pub struct UpdateSeen {
     pub seen_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct NotificationCount {
     pub count: usize,
 }

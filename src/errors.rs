@@ -1,5 +1,5 @@
 use miette::Diagnostic;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 #[derive(Debug, Error, Diagnostic)]
@@ -22,7 +22,7 @@ pub enum BiskyError {
     StorageError(String),
 }
 
-#[derive(Debug, Error, Deserialize)]
+#[derive(Debug, Error, Deserialize, Serialize)]
 #[error("Error: {error}, Message: {message}")]
 pub struct ApiError {
     pub error: String,
